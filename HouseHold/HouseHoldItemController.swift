@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  HouseHoldItemController.swift
 //  HouseHold
 //
 //  Created by Robert Andersson on 2016-03-15.
@@ -8,18 +8,19 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class HouseHoldItemController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        let item = HouseHoldItem(name: "olle", inventory: 3, inventoryLimit: 6)
+        print(item.name)
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-
 }
-
