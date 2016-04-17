@@ -11,9 +11,9 @@ import UIKit
 
 class HouseHoldItem {
     
-    let name: String!
-    let inventory: Int!
-    let inventoryLimit: Int!
+    var name: String!
+    var inventory: Int!
+    var inventoryLimit: Int!
     var barCode: String!
     
     required convenience init(name: String, inventory: Int, inventoryLimit: Int) {

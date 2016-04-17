@@ -1,26 +1,18 @@
 //
-//  ShoppingListViewController.swift
+//  AddItemViewController.swift
 //  HouseHold
 //
-//  Created by Robert Andersson on 2016-04-10.
+//  Created by Robert Andersson on 2016-04-17.
 //  Copyright © 2016 Kroppe. All rights reserved.
 //
 
 import UIKit
 
-class ShoppingListViewController: UIViewController {
+class AddItemViewController: UIViewController {
 
-    @IBOutlet weak var menyButton: UIBarButtonItem!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        if self.revealViewController() != nil {
-            menyButton.target = self.revealViewController()
-            menyButton.action = "revealToggle:"
-            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
+
         // Do any additional setup after loading the view.
     }
 

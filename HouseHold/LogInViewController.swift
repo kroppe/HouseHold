@@ -7,15 +7,20 @@
 //
 
 import UIKit
+import Firebase
 
 class LogInViewController: UIViewController {
-
+   
+    let fireService = FirebaseService(rootRef: "https://householdapp.firebaseio.com/")
+    
+    @IBOutlet weak var emailTextfield: UITextField!
+    @IBOutlet weak var passwordTextfield: UITextField!
+    
     @IBOutlet weak var menyButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let item = HouseHoldItem(name: "nisse", inventory: 2, inventoryLimit: 4)
-        print(item.name)
-        
+       
         if self.revealViewController() != nil {
             menyButton.target = self.revealViewController()
             menyButton.action = "revealToggle:"
@@ -31,14 +36,24 @@ class LogInViewController: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
+    @IBAction func loginButton(sender: AnyObject) {
+        
+        if let email = emailTextfield.text, password = passwordTextfield.text {
+            print(email)
+            fireService.loginUserWhitEmail(email, password: password) {(passed: Bool) in
+                
+                if passed == true {
+                
+                    print("OK")
+                } else  {
+                    print("Fel")
+                    
+                }
+                
+            }
+        }
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
     }
-    */
+   
 
 }
