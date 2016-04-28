@@ -31,6 +31,13 @@ class HouseHoldItem {
         self.barCode = barCode
         
     }
+    
+    func toAnyObject() -> AnyObject {
+        return [
+            "antal": inventory, "minAntal": inventoryLimit, "name": name
+        ]
+    }
+
 
     
 }

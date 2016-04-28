@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3905005D1CCCFBF100871FA2 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3905005C1CCCFBF100871FA2 /* MenuTableViewCell.swift */; };
 		3934E8B91CC3D91A00C3A052 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3934E8B81CC3D91A00C3A052 /* AddItemViewController.swift */; };
 		3934E8BB1CC3E95600C3A052 /* RegistreringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3934E8BA1CC3E95600C3A052 /* RegistreringViewController.swift */; };
 		3934E8BD1CC3E9DE00C3A052 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3934E8BC1CC3E9DE00C3A052 /* FirebaseService.swift */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		1D2AFEAFBA95413CAF2479C6 /* Pods-HouseHold.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HouseHold.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HouseHold/Pods-HouseHold.debug.xcconfig"; sourceTree = "<group>"; };
+		3905005C1CCCFBF100871FA2 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
 		3934E8B81CC3D91A00C3A052 /* AddItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
 		3934E8BA1CC3E95600C3A052 /* RegistreringViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistreringViewController.swift; sourceTree = "<group>"; };
 		3934E8BC1CC3E9DE00C3A052 /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				396CB01C1C9818310061917D /* Info.plist */,
 				396CB0321C981AAB0061917D /* HouseHoldItem.swift */,
 				39B423F21CBF8DBC00E9E05C /* HouseHold.swift */,
+				3905005C1CCCFBF100871FA2 /* MenuTableViewCell.swift */,
 			);
 			path = HouseHold;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 			files = (
 				39B165841CBE33AF00237DC5 /* SWRevealViewController.m in Sources */,
 				39B165881CBE65D600237DC5 /* ShoppingTableViewController.swift in Sources */,
+				3905005D1CCCFBF100871FA2 /* MenuTableViewCell.swift in Sources */,
 				3934E8BD1CC3E9DE00C3A052 /* FirebaseService.swift in Sources */,
 				3934E8BB1CC3E95600C3A052 /* RegistreringViewController.swift in Sources */,
 				39B1657D1CBA5F9D00237DC5 /* HouseHoldListViewController.swift in Sources */,

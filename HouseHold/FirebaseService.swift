@@ -12,11 +12,10 @@ import Firebase
 class FirebaseService {
     let root: Firebase
     var autID:String? {return root.authData.uid}
-    
+    var userHouseHoldList: [String] = []
     //Endpoint
-    
     var users: Firebase {return root.childByAppendingPath("users") }
-    var items: Firebase {return root.childByAppendingPath("items") }
+    
     
     init(rootRef: String) {
     
@@ -51,9 +50,77 @@ class FirebaseService {
                 return
             }
             completion(true)
-            print("User")
+            
         }
     
+    }
+    
+    
+    func getHouseHoldLists(start: () -> (), completion: ([HouseHold])-> Void){
+        
+        let ref = root.childByAppendingPath("houseHolds")
+        var houseHolds: [HouseHold] = []
+        
+        start()
+        
+        ref.observeEventType(.Value, withBlock: { snapshot in
+            houseHolds.removeAll()
+            
+            
+            for rest in snapshot.children{
+                
+                    for i in snapshot.childSnapshotForPath((rest.key) as String!).childSnapshotForPath("users").children {
+                        
+                        
+                        if(self.autID! == (i.value as String)) {
+                        
+                            houseHolds.append(HouseHold(household: (rest.key) as String!))
+                           
+                            
+                            for item in snapshot.childSnapshotForPath((rest.key) as String!).childSnapshotForPath("items").children {
+                                
+                                let name = item.childSnapshotForPath("name").value as! String
+                                let index = item.childSnapshotForPath("antal").value as! Int
+                                let limit = item.childSnapshotForPath("minAntal").value as! Int
+                                
+                                houseHolds[houseHolds.count - 1].houseHoldList.append(HouseHoldItem(name: name, inventory: index, inventoryLimit: limit))
+                                
+                            }
+                            break
+                        }
+                        
+                        
+                        
+                    }
+                
+            }
+            completion(houseHolds)
+        })
+        
+    }
+
+    func removeHouseHoldFromUser(houseHold: String) {
+        let ref = root.childByAppendingPath("houseHolds").childByAppendingPath(houseHold).childByAppendingPath("users")
+        
+        ref.observeEventType(.Value, withBlock: { snapshot in
+            for i in snapshot.children {
+                if(self.autID! == (i.value as String)) {
+                    ref.childByAppendingPath(i.key as String!).removeValue()
+                }
+            }
+        })
+    }
+    
+    
+    func addHousHold(name: String){
+        root.childByAppendingPath("houseHolds").childByAppendingPath(name).childByAppendingPath("users").childByAutoId().setValue(autID)
+        //root.childByAppendingPath("houseHolds").childByAppendingPath(name).childByAppendingPath("items").childByAutoId().setValue("hejsan")
+    }
+    
+    func addItemToHouseHould(houseHold: String, itemType: String, index: Int, limit: Int) {
+        let item: HouseHoldItem = HouseHoldItem.init(name: itemType, inventory: index, inventoryLimit: limit)
+        root.childByAppendingPath("houseHolds").childByAppendingPath(houseHold).childByAppendingPath("items").childByAutoId().setValue(item.toAnyObject())
+        
     }
     
 }

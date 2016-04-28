@@ -7,22 +7,47 @@
 //
 
 import UIKit
+import Firebase
 
 class ShoppingTableViewController: UITableViewController {
 
     
     var houseHoldItemList: [HouseHoldItem] = []
     var houseHoldItemsLowLimmit: [HouseHoldItem] = []
+    var houseHold: String!
+    var houseHoudls: [HouseHold] = []
     
+    let fireService = FirebaseService(rootRef: "https://householdapp.firebaseio.com/")
     
-    
+    @IBOutlet weak var shopItemLabel: UINavigationItem!
+    @IBOutlet var houseHoldList: UITableView!
     @IBOutlet weak var menyButton: UIBarButtonItem!
     override func viewWillAppear(animated: Bool) {
         
+        fireService.getHouseHoldLists({
+            
+            }, completion: {house in
+                self.houseHoldItemsLowLimmit.removeAll()
+                var count: Int = 0
+                
+                self.houseHoudls = house
+                for i in self.houseHoudls {
+                    count += 1
+                    if(i.houseHoldName == self.houseHold) {
+                        break
+                    }
+                }
+                if(count != 0) {
+                self.houseHoldItemList = self.houseHoudls[(count - 1)].houseHoldList
+                self.indexLimmit(self.houseHoldItemList)
+                self.houseHoldList.reloadData()
+                }
+        })
+
         
-        indexLimmit(houseHoldItemList)
         
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -32,6 +57,7 @@ class ShoppingTableViewController: UITableViewController {
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
 
+        
         
     }
 

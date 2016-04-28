@@ -8,32 +8,41 @@
 
 import UIKit
 import Foundation
+import Firebase
 
 class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    
+    @IBOutlet weak var newHouseHoldTextFiled: UITextField!
+    @IBOutlet weak var addNewHouseHoldButton: UIButton!
+    
+    @IBOutlet weak var houseHoldsTableView: UITableView!
+    
+    let fireService = FirebaseService(rootRef: "https://householdapp.firebaseio.com/")
+    
     var currentIndex: Int = 0
+    
     var houseHoudls: [HouseHold] = []
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        fireService.getHouseHoldLists({
+            
+            }, completion: {house in
+                
+                
+                self.houseHoudls = house
+                self.houseHoldsTableView.reloadData()
+                
+        })
+        
+    }
     override func viewDidLoad() {
+        newHouseHoldTextFiled.hidden = true
+        addNewHouseHoldButton.hidden = true
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
-        houseHoudls.append(HouseHold(household: "Hemma"))
-        houseHoudls.append(HouseHold(household: "Sommar hus"))
-        houseHoudls[0].houseHoldList.append(HouseHoldItem(name: "Korv", inventory: 2, inventoryLimit: 1))
-        houseHoudls[0].houseHoldList.append(HouseHoldItem(name: "Ägg", inventory: 3, inventoryLimit: 3))
-        houseHoudls[0].houseHoldList.append(HouseHoldItem(name: "Korv", inventory: 1, inventoryLimit: 1))
-        houseHoudls[0].houseHoldList.append(HouseHoldItem(name: "Mjölk", inventory: 4, inventoryLimit: 1))
-        houseHoudls[0].houseHoldList.append(HouseHoldItem(name: "Smör", inventory: 2, inventoryLimit: 1))
-        houseHoudls[0].houseHoldList.append(HouseHoldItem(name: "Grädde", inventory: 1, inventoryLimit: 1))
-        houseHoudls[0].houseHoldList.append(HouseHoldItem(name: "Gurka", inventory: 2, inventoryLimit: 1))
-        houseHoudls[0].houseHoldList.append(HouseHoldItem(name: "Tomater", inventory: 2, inventoryLimit: 3))
-        houseHoudls[0].houseHoldList.append(HouseHoldItem(name: "Mjöl", inventory: 1, inventoryLimit: 1))
-        houseHoudls[1].houseHoldList.append(HouseHoldItem(name: "Grädde", inventory: 1, inventoryLimit: 1))
-        houseHoudls[1].houseHoldList.append(HouseHoldItem(name: "Gurka", inventory: 2, inventoryLimit: 1))
-        houseHoudls[1].houseHoldList.append(HouseHoldItem(name: "Tomater", inventory: 2, inventoryLimit: 3))
-        houseHoudls[1].houseHoldList.append(HouseHoldItem(name: "Mjöl", inventory: 1, inventoryLimit: 1))
-        
- 
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,15 +57,16 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
      func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        
         return houseHoudls.count
     }
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("HouseHolds Cell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("HouseHolds Cell", forIndexPath: indexPath) as! MenuTableViewCell
         
-        
-        cell.textLabel?.text = houseHoudls[indexPath.row].houseHoldName
+        cell.deleteButton.tag = indexPath.row
+        cell.cellLabel.text = houseHoudls[indexPath.row].houseHoldName
         return cell
     }
     
@@ -71,19 +81,53 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let nav = segue!.destinationViewController as! UINavigationController
             let VC = nav.topViewController as! ShoppingTableViewController
             
-            VC.houseHoldItemList = self.houseHoudls[currentIndex].houseHoldList
-            
+            if(houseHoudls.count != 0) {
+                
+                VC.houseHold = self.houseHoudls[currentIndex].houseHoldName
+                VC.shopItemLabel.title = self.houseHoudls[currentIndex].houseHoldName
+                
+            }else{
+                VC.houseHold = "nil"
+            }
         }
         
         if segue!.identifier == "HouseHoldList" {
             let nav = segue!.destinationViewController as! UINavigationController
             let VC = nav.topViewController as! HouseHoldListViewController
             
-            VC.houseHoldItemList = self.houseHoudls[currentIndex].houseHoldList
-            
+            if(houseHoudls.count != 0) {
+                print(self.houseHoudls[currentIndex].houseHoldName)
+                VC.houseHold = self.houseHoudls[currentIndex].houseHoldName
+                VC.houseHoldBarLabel.title = self.houseHoudls[currentIndex].houseHoldName
+
+            }else{
+             VC.houseHold = "nil"
+            }
         }
 
         
+    }
+   
+    
+    @IBAction func addHouseholdButton(sender: AnyObject) {
+        
+        newHouseHoldTextFiled.hidden = false
+        addNewHouseHoldButton.hidden = false
+        
+    }
+    
+    @IBAction func addNewHouseHoldButton(sender: AnyObject) {
+        
+        fireService.addHousHold(newHouseHoldTextFiled.text!)
+        newHouseHoldTextFiled.hidden = true
+        addNewHouseHoldButton.hidden = true
+        newHouseHoldTextFiled.text = ""
+        
+    }
+    @IBAction func deleteHouseHoldButton(sender: AnyObject) {
+        
+        fireService.removeHouseHoldFromUser(self.houseHoudls[sender.tag].houseHoldName)
+       
     }
     
 }
