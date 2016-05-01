@@ -34,7 +34,7 @@ class HouseHoldItem {
     
     func toAnyObject() -> AnyObject {
         return [
-            "antal": inventory, "minAntal": inventoryLimit, "name": name
+            "antal": inventory, "minAntal": inventoryLimit
         ]
     }
 

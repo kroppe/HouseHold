@@ -12,12 +12,14 @@ import UIKit
 class HouseHold {
     
     var houseHoldName: String!
+    var key: String!
     var houseHoldList: [HouseHoldItem] = []
     
     
-    init(household: String) {
+    init(household: String, key: String) {
         
         self.houseHoldName = household
+        self.key = key
         
     }
     

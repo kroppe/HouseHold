@@ -22,14 +22,6 @@ class LogInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        if self.revealViewController() != nil {
-            //menyButton.target = self.revealViewController()
-            //menyButton.action = "revealToggle:"
-            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
-
-        
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,7 +38,7 @@ class LogInViewController: UIViewController {
                 if passed == true {
                 
                     self.performSegueWithIdentifier("menu", sender: sender)
-                 
+                    
 
                 } else  {
                     print("Fel")
@@ -57,7 +49,13 @@ class LogInViewController: UIViewController {
         }
 
     }
-
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+     
+        /*let VC = segue.destinationViewController as! MenuViewController
+        
+        VC.userInloggdEmail = emailTextfield.text*/
+        
+    }
     
 
 }

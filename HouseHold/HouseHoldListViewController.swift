@@ -14,6 +14,7 @@ class HouseHoldListViewController: UIViewController, UITableViewDelegate, UITabl
     
     
     var houseHoldItemList: [HouseHoldItem] = []
+    var houseHoldKey: String!
     var houseHold: String!
     var houseHoudls: [HouseHold] = []
     
@@ -79,24 +80,17 @@ class HouseHoldListViewController: UIViewController, UITableViewDelegate, UITabl
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("HouseHoldList Cell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("HouseHoldList Cell", forIndexPath: indexPath) as! ItemListTableViewCell
         
         
         let item = houseHoldItemList[indexPath.row]
-        cell.textLabel?.text = item.name
-        cell.detailTextLabel?.text = "\(String(item.inventory)) st"
+        cell.itemNameLabel.text = item.name
+        cell.itemIndexLabel.text = "\(String(item.inventory)) / \(String(item.inventoryLimit))"
+        cell.itemEditButton.tag = indexPath.row
         return cell
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
-        if segue!.identifier == "addIHouseHoldItem" {
-            let nav = segue!.destinationViewController as! UINavigationController
-            let VC = nav.topViewController as! AddItemViewController
-        
-            VC.huoseHold = self.houseHold
-        }
-    }
-
+    
     @IBAction func addItemButton(sender: AnyObject) {
         
         
@@ -107,7 +101,7 @@ class HouseHoldListViewController: UIViewController, UITableViewDelegate, UITabl
         func configurationTextField(textField: UITextField!)
         {
             
-            textField.placeholder = "Enter itemName"
+            textField.placeholder = "Produkter namn"
             nField = textField
             
         }
@@ -115,14 +109,14 @@ class HouseHoldListViewController: UIViewController, UITableViewDelegate, UITabl
         func configurationTextField1(textField: UITextField!)
         {
             
-            textField.placeholder = "Enter itemIndex"
+            textField.placeholder = "Produkt antal"
             iField = textField
         }
         
         func configurationTextField2(textField: UITextField!)
         {
             
-            textField.placeholder = "Enter itemIndexLimit"
+            textField.placeholder = "Produkter min-antal"
             lField = textField
         }
         
@@ -130,22 +124,25 @@ class HouseHoldListViewController: UIViewController, UITableViewDelegate, UITabl
         
         func handleCancel(alertView: UIAlertAction!)
         {
-            print("Cancelled !!")
+            
         }
         
-        let alert = UIAlertController(title: "New item", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Ny produkt", message: "", preferredStyle: UIAlertControllerStyle.Alert)
         
         alert.addTextFieldWithConfigurationHandler(configurationTextField)
         alert.addTextFieldWithConfigurationHandler(configurationTextField1)
         alert.addTextFieldWithConfigurationHandler(configurationTextField2)
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler:handleCancel))
-        alert.addAction(UIAlertAction(title: "Save", style: UIAlertActionStyle.Default, handler:{ (UIAlertAction)in
+        alert.addAction(UIAlertAction(title: "Avsluta", style: UIAlertActionStyle.Cancel, handler:handleCancel))
+        alert.addAction(UIAlertAction(title: "Spara", style: UIAlertActionStyle.Default, handler:{ (UIAlertAction)in
             
             let name = nField.text
             let index = Int(iField.text!)
             let limit = Int(lField.text!)
             
-            self.fireService.addItemToHouseHould(self.houseHold, itemType: name!, index: index!, limit: limit!)
+            if(name! != "" && index != nil && limit != nil){
+                self.fireService.addItemToHouseHould(self.houseHoldKey, itemType: name!, index: index!, limit: limit!)
+            }
+            
         }))
         self.presentViewController(alert, animated: true, completion: {
             
@@ -153,5 +150,93 @@ class HouseHoldListViewController: UIViewController, UITableViewDelegate, UITabl
 
     }
 
+    @IBAction func editItemButton(sender: AnyObject) {
+        
+        var iField: UITextField!
+        
+        
+        func configurationTextField(textField: UITextField!)
+        {
+            
+            textField.placeholder = "Ta bort/Lägg produktantal"
+            iField = textField
+        }
+        
+        func handleCancel(alertView: UIAlertAction!)
+        {
+            
+        }
+        
+        func deleteProdukt(alertView: UIAlertAction!) {
+            
+        
+            self.fireService.removeItemFromHouseHold(self.houseHoldKey, itemName: self.houseHoldItemList[sender.tag].name)
+        }
+        
+        let alert = UIAlertController(title: "Updatara produkt", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addTextFieldWithConfigurationHandler(configurationTextField)
+        alert.addAction(UIAlertAction(title: "Avsluta", style: UIAlertActionStyle.Cancel, handler:handleCancel))
+        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.Default, handler:deleteProdukt))
+        alert.addAction(UIAlertAction(title: "Spara", style: UIAlertActionStyle.Default, handler:{ (UIAlertAction)in
+            
+            
+            let index = Int(iField.text!)
+            
+            let currenItemIndex = self.houseHoldItemList[sender.tag].inventory
+            
+            
+            
+            if(index != nil) {
+                let newItemIndex = (index! + currenItemIndex)
+                self.fireService.updateItemIndex(self.houseHoldKey, itemName: self.houseHoldItemList[sender.tag].name, newIndex: newItemIndex)
+                
+            }
+            
+        }))
+        self.presentViewController(alert, animated: true, completion: {
+            
+        })
+
+    }
+    @IBAction func shareHouseHoldButton(sender: AnyObject) {
+        
+        var eField: UITextField!
+        
+        
+        func configurationTextField(textField: UITextField!)
+        {
+            
+            textField.placeholder = "Dela till, E-mail"
+            eField = textField
+        }
+        
+        func handleCancel(alertView: UIAlertAction!)
+        {
+            
+        }
+        
+        let alert = UIAlertController(title: "Dela hushåll", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addTextFieldWithConfigurationHandler(configurationTextField)
+        alert.addAction(UIAlertAction(title: "Avsluta", style: UIAlertActionStyle.Cancel, handler:handleCancel))
+        alert.addAction(UIAlertAction(title: "Dela", style: UIAlertActionStyle.Default, handler:{ (UIAlertAction)in
+            
+            let eMail = eField.text
+            
+            if(eMail != "") {
+                self.fireService.shareHouseHoldWhitEmail(eMail!, houseHoldkey: self.houseHoldKey)
+                
+            }
+            
+        }))
+        self.presentViewController(alert, animated: true, completion: {
+            
+        })
+        
+        
+    
+
+    }
     
 }

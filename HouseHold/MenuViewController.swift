@@ -15,25 +15,25 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     @IBOutlet weak var newHouseHoldTextFiled: UITextField!
     @IBOutlet weak var addNewHouseHoldButton: UIButton!
-    
+    @IBOutlet weak var userLogInLabel: UILabel!
     @IBOutlet weak var houseHoldsTableView: UITableView!
     
     let fireService = FirebaseService(rootRef: "https://householdapp.firebaseio.com/")
-    
     var currentIndex: Int = 0
-    
     var houseHoudls: [HouseHold] = []
-    
+    var userInloggdEmail: String!
     
     override func viewWillAppear(animated: Bool) {
         
+        navigationController?.navigationBar.hidden = true
+    
         fireService.getHouseHoldLists({
             
             }, completion: {house in
                 
-                
                 self.houseHoudls = house
                 self.houseHoldsTableView.reloadData()
+                
                 
         })
         
@@ -41,6 +41,7 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidLoad() {
         newHouseHoldTextFiled.hidden = true
         addNewHouseHoldButton.hidden = true
+        
         super.viewDidLoad()
         
     }
@@ -81,12 +82,20 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let nav = segue!.destinationViewController as! UINavigationController
             let VC = nav.topViewController as! ShoppingTableViewController
             
+            if(houseHoudls.count == currentIndex) {
+                
+                currentIndex -= 1
+            }
+            
             if(houseHoudls.count != 0) {
                 
+                VC.houseHoldKey = self.houseHoudls[currentIndex].key
                 VC.houseHold = self.houseHoudls[currentIndex].houseHoldName
                 VC.shopItemLabel.title = self.houseHoudls[currentIndex].houseHoldName
                 
             }else{
+                VC.houseHoldKey = "nil"
+
                 VC.houseHold = "nil"
             }
         }
@@ -95,14 +104,21 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let nav = segue!.destinationViewController as! UINavigationController
             let VC = nav.topViewController as! HouseHoldListViewController
             
-            if(houseHoudls.count != 0) {
-                print(self.houseHoudls[currentIndex].houseHoldName)
-                VC.houseHold = self.houseHoudls[currentIndex].houseHoldName
-                VC.houseHoldBarLabel.title = self.houseHoudls[currentIndex].houseHoldName
-
-            }else{
-             VC.houseHold = "nil"
+            if(houseHoudls.count == currentIndex) {
+                
+                currentIndex -= 1
             }
+                if(houseHoudls.count != 0) {
+               
+                    VC.houseHoldKey = self.houseHoudls[currentIndex].key
+                    VC.houseHold = self.houseHoudls[currentIndex].houseHoldName
+                    VC.houseHoldBarLabel.title = self.houseHoudls[currentIndex].houseHoldName
+
+                }else{
+                    VC.houseHold = "nil"
+                    VC.houseHoldKey = "nil"
+                }
+            
         }
 
         
@@ -111,23 +127,32 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     @IBAction func addHouseholdButton(sender: AnyObject) {
         
-        newHouseHoldTextFiled.hidden = false
-        addNewHouseHoldButton.hidden = false
-        
+        if(newHouseHoldTextFiled.hidden == true) {
+            newHouseHoldTextFiled.hidden = false
+            addNewHouseHoldButton.hidden = false
+        }else {
+            newHouseHoldTextFiled.hidden = true
+            addNewHouseHoldButton.hidden = true
+        }
     }
     
     @IBAction func addNewHouseHoldButton(sender: AnyObject) {
         
-        fireService.addHousHold(newHouseHoldTextFiled.text!)
-        newHouseHoldTextFiled.hidden = true
-        addNewHouseHoldButton.hidden = true
-        newHouseHoldTextFiled.text = ""
-        
+        if(newHouseHoldTextFiled.text! != ""){
+            fireService.addHousHold(newHouseHoldTextFiled.text!)
+            newHouseHoldTextFiled.hidden = true
+            addNewHouseHoldButton.hidden = true
+            newHouseHoldTextFiled.text = ""
+        }
     }
     @IBAction func deleteHouseHoldButton(sender: AnyObject) {
         
-        fireService.removeHouseHoldFromUser(self.houseHoudls[sender.tag].houseHoldName)
+        fireService.removeHouseHoldFromUser(self.houseHoudls[sender.tag].key)
        
+    }
+    
+    @IBAction func logoutButton(sender: AnyObject) {
+        fireService.logoutUser()
     }
     
 }

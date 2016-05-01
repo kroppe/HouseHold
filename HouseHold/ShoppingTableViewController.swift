@@ -15,6 +15,7 @@ class ShoppingTableViewController: UITableViewController {
     var houseHoldItemList: [HouseHoldItem] = []
     var houseHoldItemsLowLimmit: [HouseHoldItem] = []
     var houseHold: String!
+    var houseHoldKey: String!
     var houseHoudls: [HouseHold] = []
     
     let fireService = FirebaseService(rootRef: "https://householdapp.firebaseio.com/")
@@ -80,11 +81,12 @@ class ShoppingTableViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Table Cell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("ShoppingList Cell", forIndexPath: indexPath) as! ItemListTableViewCell
 
         let item = houseHoldItemsLowLimmit[indexPath.row]
-        cell.textLabel?.text = item.name
-        cell.detailTextLabel?.text = "\(String(item.inventory)) st"
+        cell.shoppingItemName.text = item.name
+        cell.shoppingItemIndex.text = "\(String(item.inventory)) / \(String(item.inventoryLimit))"
+        cell.shoppingEditButton.tag = indexPath.row
         return cell
     }
     
@@ -101,6 +103,54 @@ class ShoppingTableViewController: UITableViewController {
         }
         
         
+    }
+    @IBAction func editItemButton(sender: AnyObject) {
+        
+        var iField: UITextField!
+    
+        
+        func configurationTextField(textField: UITextField!)
+        {
+            
+            textField.placeholder = "Nytt antal"
+            iField = textField
+        }
+        
+        func handleCancel(alertView: UIAlertAction!)
+        {
+            
+        }
+        
+        func deleteProdukt(alertView: UIAlertAction!) {
+            
+            
+            self.fireService.removeItemFromHouseHold(self.houseHoldKey, itemName: self.houseHoldItemList[sender.tag].name)
+        }
+
+        
+        let alert = UIAlertController(title: "Updatara produkt", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addTextFieldWithConfigurationHandler(configurationTextField)
+        alert.addAction(UIAlertAction(title: "Avsluta", style: UIAlertActionStyle.Cancel, handler:handleCancel))
+        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.Default, handler:deleteProdukt))
+        alert.addAction(UIAlertAction(title: "Spara", style: UIAlertActionStyle.Default, handler:{ (UIAlertAction)in
+            
+            
+            let index = Int(iField.text!)
+            let currenItemIndex = self.houseHoldItemsLowLimmit[sender.tag].inventory
+            let newItemIndex = (index! + currenItemIndex)
+            
+            if(index != nil) {
+                self.fireService.updateItemIndex(self.houseHoldKey, itemName: self.houseHoldItemsLowLimmit[sender.tag].name, newIndex: newItemIndex)
+                print(currenItemIndex)
+            }
+            
+        }))
+        self.presentViewController(alert, animated: true, completion: {
+            
+        })
+        
+
     }
 
     
