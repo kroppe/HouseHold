@@ -17,12 +17,14 @@ class ShoppingTableViewController: UITableViewController {
     var houseHold: String!
     var houseHoldKey: String!
     var houseHoudls: [HouseHold] = []
+    var userInloggdEmail: String!
     
     let fireService = FirebaseService(rootRef: "https://householdapp.firebaseio.com/")
     
     @IBOutlet weak var shopItemLabel: UINavigationItem!
     @IBOutlet var houseHoldList: UITableView!
     @IBOutlet weak var menyButton: UIBarButtonItem!
+    
     override func viewWillAppear(animated: Bool) {
         
         fireService.getHouseHoldLists({
@@ -54,7 +56,7 @@ class ShoppingTableViewController: UITableViewController {
        
         if self.revealViewController() != nil {
             menyButton.target = self.revealViewController()
-            menyButton.action = "revealToggle:"
+            menyButton.action = #selector(SWRevealViewController.revealToggle(_:))
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
 
@@ -138,11 +140,17 @@ class ShoppingTableViewController: UITableViewController {
             
             let index = Int(iField.text!)
             let currenItemIndex = self.houseHoldItemsLowLimmit[sender.tag].inventory
-            let newItemIndex = (index! + currenItemIndex)
+            
             
             if(index != nil) {
+                var newItemIndex = (index! + currenItemIndex)
+                
+                if(newItemIndex <= 0) {
+                    newItemIndex = 0
+                }
+                
                 self.fireService.updateItemIndex(self.houseHoldKey, itemName: self.houseHoldItemsLowLimmit[sender.tag].name, newIndex: newItemIndex)
-                print(currenItemIndex)
+                
             }
             
         }))

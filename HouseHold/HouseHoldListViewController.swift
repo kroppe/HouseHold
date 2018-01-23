@@ -14,9 +14,11 @@ class HouseHoldListViewController: UIViewController, UITableViewDelegate, UITabl
     
     
     var houseHoldItemList: [HouseHoldItem] = []
+    var houseHoudls: [HouseHold] = []
+    var inviteHouseholds: [Invite] = []
+    var userInloggdEmail: String!
     var houseHoldKey: String!
     var houseHold: String!
-    var houseHoudls: [HouseHold] = []
     
     let fireService = FirebaseService(rootRef: "https://householdapp.firebaseio.com/")
     
@@ -26,6 +28,8 @@ class HouseHoldListViewController: UIViewController, UITableViewDelegate, UITabl
     
     
     override func viewWillAppear(animated: Bool) {
+        
+        
         
         fireService.getHouseHoldLists({
             
@@ -47,7 +51,7 @@ class HouseHoldListViewController: UIViewController, UITableViewDelegate, UITabl
                     self.houseHoldTableView.reloadData()
                 }
         })
-        
+    
     }
 
     override func viewDidLoad() {
@@ -55,7 +59,7 @@ class HouseHoldListViewController: UIViewController, UITableViewDelegate, UITabl
         
         if self.revealViewController() != nil {
             menyButton.target = self.revealViewController()
-            menyButton.action = "revealToggle:"
+            menyButton.action = #selector(SWRevealViewController.revealToggle(_:))
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
             
         }
@@ -139,9 +143,13 @@ class HouseHoldListViewController: UIViewController, UITableViewDelegate, UITabl
             let index = Int(iField.text!)
             let limit = Int(lField.text!)
             
-            if(name! != "" && index != nil && limit != nil){
-                self.fireService.addItemToHouseHould(self.houseHoldKey, itemType: name!, index: index!, limit: limit!)
-            }
+            
+                if(name! != "" && index != nil && limit != nil){
+                    self.fireService.addItemToHouseHould(self.houseHoldKey, itemType: name!, index: index!, limit: limit!)
+                }
+                else {
+                    self.alertMassageInvite("Fyll i alla textfält korekt")
+                }
             
         }))
         self.presentViewController(alert, animated: true, completion: {
@@ -182,13 +190,15 @@ class HouseHoldListViewController: UIViewController, UITableViewDelegate, UITabl
             
             
             let index = Int(iField.text!)
-            
             let currenItemIndex = self.houseHoldItemList[sender.tag].inventory
             
-            
-            
             if(index != nil) {
-                let newItemIndex = (index! + currenItemIndex)
+                var newItemIndex = (index! + currenItemIndex)
+                
+                if(newItemIndex <= 0) {
+                    newItemIndex = 0
+                }
+                
                 self.fireService.updateItemIndex(self.houseHoldKey, itemName: self.houseHoldItemList[sender.tag].name, newIndex: newItemIndex)
                 
             }
@@ -199,44 +209,97 @@ class HouseHoldListViewController: UIViewController, UITableViewDelegate, UITabl
         })
 
     }
+    
     @IBAction func shareHouseHoldButton(sender: AnyObject) {
         
-        var eField: UITextField!
-        
-        
-        func configurationTextField(textField: UITextField!)
-        {
+        if(self.houseHold != "nil"){
             
-            textField.placeholder = "Dela till, E-mail"
-            eField = textField
-        }
+            var eField: UITextField!
         
-        func handleCancel(alertView: UIAlertAction!)
-        {
-            
-        }
         
-        let alert = UIAlertController(title: "Dela hushåll", message: "", preferredStyle: UIAlertControllerStyle.Alert)
-        
-        alert.addTextFieldWithConfigurationHandler(configurationTextField)
-        alert.addAction(UIAlertAction(title: "Avsluta", style: UIAlertActionStyle.Cancel, handler:handleCancel))
-        alert.addAction(UIAlertAction(title: "Dela", style: UIAlertActionStyle.Default, handler:{ (UIAlertAction)in
+            func configurationTextField(textField: UITextField!)
+            {
             
-            let eMail = eField.text
-            
-            if(eMail != "") {
-                self.fireService.shareHouseHoldWhitEmail(eMail!, houseHoldkey: self.houseHoldKey)
-                
+                textField.placeholder = "Dela till, E-mail"
+                eField = textField
             }
-            
-        }))
-        self.presentViewController(alert, animated: true, completion: {
-            
-        })
         
+            func handleCancel(alertView: UIAlertAction!)
+            {
+            
+            }
         
-    
+            let alert = UIAlertController(title: "Dela hushåll", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addTextFieldWithConfigurationHandler(configurationTextField)
+            alert.addAction(UIAlertAction(title: "Avsluta", style: UIAlertActionStyle.Cancel, handler:handleCancel))
+            alert.addAction(UIAlertAction(title: "Dela", style: UIAlertActionStyle.Default, handler:{ (UIAlertAction)in
+            
+                let eMail: String = eField.text!
+            
+            
+                
+                if(eMail != "") {
+                
+                    if(eMail != self.userInloggdEmail){
+                    
+                        self.fireService.checkUserInvitesAndHouseHolds(eMail, houseHoldkey: self.houseHoldKey, start: {
+                    
+                            }, completion: {foundInvite in
+                            
+                                if(foundInvite == false) {
+                                
+                                    self.fireService.shareHouseHoldWhitEmail(eMail, userInloggdEmail: self.userInloggdEmail, houseHoldkey: self.houseHoldKey,houseHold: self.houseHold, start: {
+                             
+                                    }, completion: {foundUser in
+                             
+                                        if(foundUser == true) {
+                                            self.alertMassageInvite("Inbjudan till (\(eMail)) är skickat")
+                                        }
+                                        else {
+                                            self.alertMassageInvite("Andvändar (\(eMail)) hittas inte")
+                                        }
+                                    
+                                    })
 
+                                }
+                                else {
+                                
+                                    self.alertMassageInvite("Andvändaren har redan en inbjudan/hushållet")
+                                }
+                            
+                        })
+
+                    
+                    }
+                    else {
+                    
+                        self.alertMassageInvite("Du kan inte skicka invite till dig själv")
+                    }
+                    
+                }
+                else {
+                
+                    self.alertMassageInvite("Skriv någon email adress")
+                }
+            
+            
+            
+            }))
+                self.presentViewController(alert, animated: true, completion: {
+            
+                })
+        }
+        else {
+                self.alertMassageInvite("Inget hushåll valt för att dela")
+            }
     }
+    
+    func alertMassageInvite(text: String) {
+        let alertController = UIAlertController(title: "", message:
+        text, preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler:nil))
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+
     
 }

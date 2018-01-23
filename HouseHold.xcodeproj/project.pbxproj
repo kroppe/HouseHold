@@ -8,14 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		3905005D1CCCFBF100871FA2 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3905005C1CCCFBF100871FA2 /* MenuTableViewCell.swift */; };
+		3916AA3B1D70225600C34410 /* Invite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3916AA3A1D70225600C34410 /* Invite.swift */; };
 		3934E8BB1CC3E95600C3A052 /* RegistreringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3934E8BA1CC3E95600C3A052 /* RegistreringViewController.swift */; };
 		3934E8BD1CC3E9DE00C3A052 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3934E8BC1CC3E9DE00C3A052 /* FirebaseService.swift */; };
+		396716D61D744D59008985D7 /* PopoverInviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396716D51D744D59008985D7 /* PopoverInviteViewController.swift */; };
 		396CB0111C9818310061917D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396CB0101C9818310061917D /* AppDelegate.swift */; };
 		396CB0161C9818310061917D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 396CB0141C9818310061917D /* Main.storyboard */; };
 		396CB0181C9818310061917D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 396CB0171C9818310061917D /* Assets.xcassets */; };
 		396CB01B1C9818310061917D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 396CB0191C9818310061917D /* LaunchScreen.storyboard */; };
 		396CB0261C9818310061917D /* HouseHoldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396CB0251C9818310061917D /* HouseHoldTests.swift */; };
 		396CB0331C981AAB0061917D /* HouseHoldItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396CB0321C981AAB0061917D /* HouseHoldItem.swift */; };
+		398C4E0C1D756B2C009C39FA /* InviteTabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398C4E0B1D756B2C009C39FA /* InviteTabelViewCell.swift */; };
 		39B1657D1CBA5F9D00237DC5 /* HouseHoldListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B1657C1CBA5F9D00237DC5 /* HouseHoldListViewController.swift */; };
 		39B1657F1CBA63CC00237DC5 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B1657E1CBA63CC00237DC5 /* LogInViewController.swift */; };
 		39B165841CBE33AF00237DC5 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B165831CBE33AF00237DC5 /* SWRevealViewController.m */; };
@@ -39,8 +42,10 @@
 /* Begin PBXFileReference section */
 		1D2AFEAFBA95413CAF2479C6 /* Pods-HouseHold.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HouseHold.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HouseHold/Pods-HouseHold.debug.xcconfig"; sourceTree = "<group>"; };
 		3905005C1CCCFBF100871FA2 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
+		3916AA3A1D70225600C34410 /* Invite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Invite.swift; sourceTree = "<group>"; };
 		3934E8BA1CC3E95600C3A052 /* RegistreringViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistreringViewController.swift; sourceTree = "<group>"; };
 		3934E8BC1CC3E9DE00C3A052 /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		396716D51D744D59008985D7 /* PopoverInviteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverInviteViewController.swift; sourceTree = "<group>"; };
 		396CB00D1C9818310061917D /* HouseHold.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HouseHold.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		396CB0101C9818310061917D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		396CB0151C9818310061917D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -51,6 +56,7 @@
 		396CB0251C9818310061917D /* HouseHoldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseHoldTests.swift; sourceTree = "<group>"; };
 		396CB0271C9818310061917D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		396CB0321C981AAB0061917D /* HouseHoldItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HouseHoldItem.swift; sourceTree = "<group>"; };
+		398C4E0B1D756B2C009C39FA /* InviteTabelViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteTabelViewCell.swift; sourceTree = "<group>"; };
 		39B1657C1CBA5F9D00237DC5 /* HouseHoldListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HouseHoldListViewController.swift; sourceTree = "<group>"; };
 		39B1657E1CBA63CC00237DC5 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		39B165811CBE33AF00237DC5 /* HouseHold-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HouseHold-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -124,6 +130,8 @@
 				396CB01C1C9818310061917D /* Info.plist */,
 				396CB0321C981AAB0061917D /* HouseHoldItem.swift */,
 				39B423F21CBF8DBC00E9E05C /* HouseHold.swift */,
+				398C4E0B1D756B2C009C39FA /* InviteTabelViewCell.swift */,
+				3916AA3A1D70225600C34410 /* Invite.swift */,
 				3905005C1CCCFBF100871FA2 /* MenuTableViewCell.swift */,
 				39C41FFF1CD2374A009E177B /* ItemListTableViewCell.swift */,
 			);
@@ -147,6 +155,7 @@
 				39B1657E1CBA63CC00237DC5 /* LogInViewController.swift */,
 				39B165871CBE65D600237DC5 /* ShoppingTableViewController.swift */,
 				39B165891CBEAF1200237DC5 /* MenuViewController.swift */,
+				396716D51D744D59008985D7 /* PopoverInviteViewController.swift */,
 				3934E8BA1CC3E95600C3A052 /* RegistreringViewController.swift */,
 			);
 			name = ViewController;
@@ -218,7 +227,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = Kroppe;
 				TargetAttributes = {
 					396CB00C1C9818310061917D = {
@@ -324,15 +333,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				39B165841CBE33AF00237DC5 /* SWRevealViewController.m in Sources */,
+				398C4E0C1D756B2C009C39FA /* InviteTabelViewCell.swift in Sources */,
 				39B165881CBE65D600237DC5 /* ShoppingTableViewController.swift in Sources */,
 				3905005D1CCCFBF100871FA2 /* MenuTableViewCell.swift in Sources */,
 				3934E8BD1CC3E9DE00C3A052 /* FirebaseService.swift in Sources */,
+				3916AA3B1D70225600C34410 /* Invite.swift in Sources */,
 				3934E8BB1CC3E95600C3A052 /* RegistreringViewController.swift in Sources */,
 				39B1657D1CBA5F9D00237DC5 /* HouseHoldListViewController.swift in Sources */,
 				39B1658A1CBEAF1200237DC5 /* MenuViewController.swift in Sources */,
 				396CB0331C981AAB0061917D /* HouseHoldItem.swift in Sources */,
 				39C420001CD2374A009E177B /* ItemListTableViewCell.swift in Sources */,
 				39B423F31CBF8DBC00E9E05C /* HouseHold.swift in Sources */,
+				396716D61D744D59008985D7 /* PopoverInviteViewController.swift in Sources */,
 				39B1657F1CBA63CC00237DC5 /* LogInViewController.swift in Sources */,
 				396CB0111C9818310061917D /* AppDelegate.swift in Sources */,
 			);
@@ -389,8 +401,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -412,7 +426,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -434,8 +448,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -451,9 +467,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -468,12 +485,14 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = HouseHold/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kroppe83.se.HouseHold;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "HouseHold/HouseHold-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -486,11 +505,13 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = HouseHold/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kroppe83.se.HouseHold;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "HouseHold/HouseHold-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
